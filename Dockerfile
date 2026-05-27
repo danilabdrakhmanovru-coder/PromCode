@@ -24,6 +24,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 COPY backend ./backend
 COPY prompts ./prompts
+COPY .env.example ./.env.example
 
 EXPOSE 8000
 

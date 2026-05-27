@@ -459,7 +459,7 @@ def scenario_adjustment(region: Region, inp: InvestorInput, site_and_network_mln
     пользовательские сценарии реально давали разные рекомендации:
     - техно-стиль и крупный выпуск тянут площадки с большим запасом мощности;
     - экодизайн тянет площадки с лучшим экоклассом и городской средой;
-    - сильный соцпакет тянет регионы с доступной арендой и садами;
+    - сильный социальный пакет тянет регионы с доступной арендой и садами;
     - маленький бюджет снижает площадки, где участок/сети выходят за лимит.
     """
     delta = 0.0
@@ -493,7 +493,7 @@ def scenario_adjustment(region: Region, inp: InvestorInput, site_and_network_mln
         kg_score = _clamp(region.social.kindergarten_per_100 / 90)
         social_delta = (0.55 * rent_score + 0.45 * kg_score - 0.55) * 0.075
         if social_delta > 0.025:
-            notes.append("соцпакет: доступнее жильё/детская инфраструктура")
+            notes.append("социальный пакет: доступнее жильё/детская инфраструктура")
         delta += social_delta
 
     budget_ratio = site_and_network_mln / max(float(inp.budget_mln_rub), 1.0)
@@ -628,7 +628,7 @@ def score_region(region: Region, inp: InvestorInput) -> Optional[RankedRegion]:
     elif budget_s <= 0.25:
         bonuses.append("дороже бюджета — нужен пересмотр состава объектов")
     if pref_s >= 0.75:
-        bonuses.append("хорошо совпадает с выбранными соц./арх. приоритетами")
+        bonuses.append("хорошо совпадает с выбранными социальным и архитектурным приоритетами")
 
     site_and_network_mln = estimate_site_and_network_mln(region, inp, estimate)
     adjustment, scenario_notes = scenario_adjustment(region, inp, site_and_network_mln)

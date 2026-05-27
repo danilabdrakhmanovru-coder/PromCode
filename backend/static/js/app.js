@@ -747,7 +747,7 @@ const App = (() => {
     function comparisonChartHtml() {
         if (!state.rankResponse?.top3?.length) return '';
         const metrics = [
-            ['logistics', 'Логистика'], ['infrastructure', 'Сети'], ['economy', 'Экономика'], ['social', 'Социалка']
+            ['logistics', 'Логистика'], ['infrastructure', 'Сети'], ['economy', 'Экономика'], ['social', 'Социальная инфраструктура']
         ];
         const avgScore = (score) => {
             const vals = metrics.map(([key]) => Number(score[key] || 0));
@@ -782,7 +782,7 @@ const App = (() => {
                 <div class="method-card"><b>Инженерные сети</b><span>Проверяются свободная мощность, газ, подстанция и стоимость подключения.</span></div>
                 <div class="method-card"><b>Экономика</b><span>Сравниваются льготы, тарифы, зарплаты, стоимость участка и сетей.</span></div>
                 <div class="method-card"><b>Социальная среда</b><span>Оцениваются жильё, детсады, колледжи, спорт и удержание персонала.</span></div>
-                <div class="method-card"><b>Ограничения инвестора</b><span>Площадка получает штрафы, если нарушает бюджет, трассу, ж/д или соцпакет.</span></div>
+                <div class="method-card"><b>Ограничения инвестора</b><span>Площадка получает штрафы, если нарушает бюджет, трассу, ж/д или социальный пакет.</span></div>
                 <div class="method-card"><b>Качество данных</b><span>Каждое поле имеет статус: источник, статистика, расчёт или ручная проверка.</span></div>
             </div>
             <div class="formula-card"><b>Итоговый балл</b><span>формируется как взвешенная сумма логистики, сетей, экономики, социальной среды и соответствия параметрам инвестора.</span></div>`;
@@ -983,11 +983,11 @@ const App = (() => {
                     return `
                     <div class="metrics metrics--score">
                         <div class="metric metric--model"><div class="metric__label">Рейтинг модели</div><div class="metric__value">${modelPts.toFixed(1)} / 100</div><div class="metric__hint">базовая оценка + ограниченные бонусы</div></div>
-                        <div class="metric"><div class="metric__label">Средний балл критериев</div><div class="metric__value">${basePts.toFixed(1)} / 100</div><div class="metric__hint">логистика + сети + экономика + социалка</div></div>
+                        <div class="metric"><div class="metric__label">Средний балл критериев</div><div class="metric__value">${basePts.toFixed(1)} / 100</div><div class="metric__hint">логистика + сети + экономика + социальная инфраструктура</div></div>
                         <div class="metric"><div class="metric__label">Логистика</div><div class="metric__value">${(s.logistics * 100).toFixed(0)} / 100</div></div>
                         <div class="metric"><div class="metric__label">Экономика</div><div class="metric__value">${(s.economy * 100).toFixed(0)} / 100</div></div>
                         <div class="metric"><div class="metric__label">Сети</div><div class="metric__value">${(s.infrastructure * 100).toFixed(0)} / 100</div></div>
-                        <div class="metric"><div class="metric__label">Социалка</div><div class="metric__value">${(s.social * 100).toFixed(0)} / 100</div></div>
+                        <div class="metric"><div class="metric__label">Социальная инфраструктура</div><div class="metric__value">${(s.social * 100).toFixed(0)} / 100</div></div>
                     </div>
                     <div class="score-explain">
                         <i class="ti ti-info-circle"></i>
@@ -1056,7 +1056,7 @@ const App = (() => {
                 <div class="metrics">
                     <div class="metric"><div class="metric__label">Стройка</div><div class="metric__value">${e.construction_mln.toFixed(1)}</div></div>
                     <div class="metric"><div class="metric__label">Жильё</div><div class="metric__value">${e.housing_mln.toFixed(1)}</div></div>
-                    <div class="metric"><div class="metric__label">Социалка</div><div class="metric__value">${e.social_mln.toFixed(1)}</div></div>
+                    <div class="metric"><div class="metric__label">Социальная инфраструктура</div><div class="metric__value">${e.social_mln.toFixed(1)}</div></div>
                     <div class="metric"><div class="metric__label">Инфра</div><div class="metric__value">${e.infrastructure_mln.toFixed(1)}</div></div>
                     <div class="metric"><div class="metric__label">Благ.+спорт</div><div class="metric__value">${e.amenities_mln.toFixed(1)}</div></div>
                 </div>
@@ -1082,7 +1082,7 @@ const App = (() => {
 
             <div class="tab-panel" data-panel="3d">
                 <div class="section-title"><i class="ti ti-view-3d"></i> 3D-модель предприятия</div>
-                <div class="prose"><p>Ниже показана интерактивная параметрическая 3D-сцена. Она собирается автоматически: размеры зависят от расчётных площадей, а облик — от архитектурного приоритета, соцпакета, спорта и благоустройства.</p></div>
+                <div class="prose"><p>Ниже показана интерактивная параметрическая 3D-сцена. Она собирается автоматически: размеры зависят от расчётных площадей, а облик — от архитектурного приоритета, социальный пакета, спорта и благоустройства.</p></div>
                 <div class="viewer3d" id="site3d-root"></div>
             </div>
 
