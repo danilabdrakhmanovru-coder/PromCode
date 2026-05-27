@@ -1,0 +1,46 @@
+{
+  "name": "ПромКод",
+  "short_name": "Наследие",
+  "description": "Подбор площадки под завод сэндвич-панелей: ТОП-3 регионов, карта, ИИ-обоснование, 3D-макет, Word-отчёт.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "theme_color": "#15102B",
+  "background_color": "#F4F2FA",
+  "lang": "ru",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Начать подбор",
+      "short_name": "Подбор",
+      "description": "Перейти к подбору площадки",
+      "url": "/#finder",
+      "icons": [{ "src": "/static/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "База данных",
+      "short_name": "База",
+      "description": "Источники и качество данных",
+      "url": "/#database",
+      "icons": [{ "src": "/static/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5">
+<title>ПромКод · подбор площадки</title>
+<meta name="description" content="Инвестиционный пульт управления: вводим параметры, получаем ТОП-3 регионов, карту, сравнение, ИИ-обоснование и макет предприятия.">
+
+<!-- PWA -->
+<meta name="theme-color" content="#15102B" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15102B" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Наследие">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="/static/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/static/icon.svg">
+<link rel="apple-touch-icon" href="/static/icon.svg">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.20.0/dist/tabler-icons.min.css">
+
+<!-- Maps -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://mapgl.2gis.com/api/js/v1"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/styles.css?v=49">
+</head>
+<body>
+
+<div class="app-shell">
+
+<!-- =========================== Topbar =========================== -->
+<header class="topbar">
+    <div class="topbar__inner">
+        <div class="brand" onclick="Nav.go('home')">
+            <div class="brand__mark"><i class="ti ti-building-factory-2"></i></div>
+            <div class="brand__text">
+                <div class="brand__name">ПромКод</div>
+                <div class="brand__sub">инвестподбор площадки · сэндвич-панели</div>
+            </div>
+        </div>
+
+        <nav class="topnav">
+            <button class="topnav__link" data-nav="home"><i class="ti ti-home-2"></i>Главная</button>
+            <button class="topnav__link" data-nav="finder"><i class="ti ti-target-arrow"></i>Подбор</button>
+            <button class="topnav__link" data-nav="database"><i class="ti ti-database-search"></i>База данных</button>
+            <button class="topnav__link" data-nav="about"><i class="ti ti-info-circle"></i>О проекте</button>
+        </nav>
+
+        <div class="topbar__actions">
+            <div class="status" id="health-status">
+                <span class="dot"></span>
+                <span class="status__text">Подключение…</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- =========================== Home page =========================== -->
+<section class="page" id="page-home">
+    <div class="hero">
+        <div class="hero__inner">
+            <div class="hero__layout">
+                <div>
+                    <p class="eyebrow"><i class="ti ti-map-pin"></i> Промышленный объект с местным характером</p>
+                    <h1 class="hero__title">
+                        Где разместить производство —
+                        <em>чтобы оно стало частью места</em>
+                    </h1>
+                    <p class="hero__lead">
+                        Сервис работает как инвестиционный пульт управления: вводим 10 параметров проекта, получаем ТОП-3 регионов и площадок, карту, сравнение, ИИ-обоснование выбора, макет предприятия и задание на 4 рендера.
+                    </p>
+                    <div class="hero__ctas">
+                        <button class="btn btn--primary btn--large" onclick="Nav.go('finder')">
+                            <i class="ti ti-arrow-right"></i> Начать подбор
+                        </button>
+                        <span class="hero__cta-hint">
+                            <i class="ti ti-bolt"></i> Готовые сценарии — за один тап
+                        </span>
+                    </div>
+                </div>
+
+                <div class="hero__visual" aria-hidden="true">
+                    <div class="hero__visual-content">
+                        <div>
+                            <div class="hero__visual-mark"><i class="ti ti-building-factory-2"></i></div>
+                            <div class="hero__visual-tag" style="margin-top: 1rem;"><i class="ti ti-sparkles"></i> live demo</div>
+                        </div>
+                        <div class="hero__visual-headline">
+                            ТОП‑3 площадки, <em>смета, макет</em>, ИИ‑справка — за один проход.
+                        </div>
+                        <span id="region-count" hidden></span>
+                        <div class="hero__visual-stats">
+                            <div class="hero__visual-stat">
+                                <strong>3</strong>
+                                <span>готовых сценария</span>
+                            </div>
+                            <div class="hero__visual-stat">
+                                <strong>10</strong>
+                                <span>параметров ввода</span>
+                            </div>
+                            <div class="hero__visual-stat">
+                                <strong>4</strong>
+                                <span>рендера на выходе</span>
+                            </div>
+                            <div class="hero__visual-stat">
+                                <strong>1</strong>
+                                <span>word‑отчёт</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <i class="ti ti-map-2 feature__icon"></i>
+                    <h3 class="feature__title">База площадок</h3>
+                    <p class="feature__desc">Площадки с пометкой качества данных и источниками сверки. База не маскирует оценки под факты.</p>
+                </div>
+                <div class="feature">
+                    <i class="ti ti-history feature__icon"></i>
+                    <h3 class="feature__title">ИИ-обоснование</h3>
+                    <p class="feature__desc">Не просто рейтинг: система объясняет, почему конкретный объект подходит под введённые ограничения.</p>
+                </div>
+                <div class="feature">
+                    <i class="ti ti-ruler-measure feature__icon"></i>
+                    <h3 class="feature__title">Макет и 3D</h3>
+                    <p class="feature__desc">Схема участка, архитектурная логика, интерактивная 3D-модель и задание на четыре рендера.</p>
+                </div>
+            </div>
+
+            <div class="hero__credits">
+                <div class="hero__credit">
+                    <div class="hero__credit-label">Подход</div>
+                    <div class="hero__credit-value"><em>Промышленность</em> + культура</div>
+                    <div class="hero__credit-sub">Архитектурный приоритет: аутентичность, техно или эко — сервис подбирает контекст.</div>
+                </div>
+                <div class="hero__credit">
+                    <div class="hero__credit-label">Социалка</div>
+                    <div class="hero__credit-value"><em>Жильё</em>, спорт, детсад</div>
+                    <div class="hero__credit-sub">Считаем не только цех, но и пакет, который удержит сотрудников в регионе.</div>
+                </div>
+                <div class="hero__credit">
+                    <div class="hero__credit-label">Прозрачность</div>
+                    <div class="hero__credit-value"><em>Источники</em> и качество</div>
+                    <div class="hero__credit-sub">Каждое поле — со статусом данных и ссылкой на официальный источник.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================== Finder page =========================== -->
+<section class="page" id="page-finder">
+    <main class="app" id="app">
+        <aside class="sidebar">
+            <div class="sidebar__head">
+                <h2 class="sidebar__title">Параметры производства</h2>
+                <button class="btn btn--ghost btn--icon" onclick="Nav.go('home')" title="На главную" aria-label="Закрыть форму">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+
+            <form id="investor-form" class="form">
+
+                <div class="quick-panel">
+                    <div class="quick-panel__title"><i class="ti ti-bolt"></i> Быстрые сценарии для демо</div>
+                    <div class="quick-panel__buttons">
+                        <button type="button" class="preset-btn" data-preset="balanced">Сбалансированный</button>
+                        <button type="button" class="preset-btn" data-preset="large">Крупный завод</button>
+                        <button type="button" class="preset-btn" data-preset="social">Соц. пакет</button>
+                    </div>
+                    <p class="quick-panel__hint">Нажмите сценарий — параметры подставятся, дальше можно править вручную.</p>
+                </div>
+
+                <div class="form__group">
+                    <p class="form__eyebrow"><i class="ti ti-building-factory-2"></i> Производство</p>
+
+                    <label class="field">
+                        <span class="field__label">Объём, тыс. м² панелей в год</span>
+                        <input type="range" name="production_volume_kt" min="100" max="1000" step="50" value="500"
+                               oninput="this.nextElementSibling.value = this.value + ' тыс. м²'">
+                        <output>500 тыс. м²</output>
+                    </label>
+
+                    <label class="field">
+                        <span class="field__label">Сотрудники</span>
+                        <input type="range" name="employees" min="10" max="200" step="10" value="80"
+                               oninput="this.nextElementSibling.value = this.value + ' чел.'">
+                        <output>80 чел.</output>
+                    </label>
+
+                    <label class="field">
+                        <span class="field__label">Бюджет, млн ₽</span>
+                        <input type="range" name="budget_mln_rub" min="10" max="300" step="10" value="150"
+                               oninput="this.nextElementSibling.value = this.value + ' млн ₽'">
+                        <output>150 млн ₽</output>
+                    </label>
+                </div>
+
+                <div class="form__group">
+                    <p class="form__eyebrow"><i class="ti ti-route"></i> Логистика</p>
+
+                    <span class="field__label">Ж/д ветка</span>
+                    <div class="chips">
+                        <label class="chip"><input type="radio" name="needs_railway" value="true" checked><span>Нужна</span></label>
+                        <label class="chip"><input type="radio" name="needs_railway" value="false"><span>Не нужна</span></label>
+                    </div>
+
+                    <label class="field">
+                        <span class="field__label">Макс. до федеральной трассы, км</span>
+                        <input type="range" name="max_highway_km" min="1" max="100" step="1" value="20"
+                               oninput="this.nextElementSibling.value = this.value + ' км'">
+                        <output>20 км</output>
+                    </label>
+                </div>
+
+                <div class="form__group">
+                    <p class="form__eyebrow"><i class="ti ti-building-arch"></i> Архитектура</p>
+
+                    <span class="field__label">Приоритет</span>
+                    <div class="chips">
+                        <label class="chip"><input type="radio" name="arch_priority" value="authenticity" checked><span>Аутентичность региону</span></label>
+                        <label class="chip"><input type="radio" name="arch_priority" value="techno"><span>Техно-стиль</span></label>
+                        <label class="chip"><input type="radio" name="arch_priority" value="eco"><span>Экодизайн</span></label>
+                    </div>
+
+                    <span class="field__label">Благоустройство <span class="field__hint">(можно выбрать несколько)</span></span>
+                    <div class="chips chips--checkable" data-name="amenities">
+                        <label class="chip"><input type="checkbox" value="alley" checked><span>Аллея</span></label>
+                        <label class="chip"><input type="checkbox" value="square" checked><span>Сквер с фонтаном</span></label>
+                        <label class="chip"><input type="checkbox" value="gazebo"><span>Беседки</span></label>
+                        <label class="chip"><input type="checkbox" value="stage"><span>Сцена</span></label>
+                        <label class="chip"><input type="checkbox" value="health_trail"><span>Тропа здоровья</span></label>
+                        <label class="chip"><input type="checkbox" value="pond"><span>Пруд</span></label>
+                        <label class="chip"><input type="checkbox" value="art_object"><span>Арт-объект</span></label>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <p class="form__eyebrow"><i class="ti ti-users-group"></i> Социальный блок</p>
+
+                    <span class="field__label">Доля сотрудников с жильём</span>
+                    <div class="chips" data-name="housing_pct">
+                        <label class="chip"><input type="radio" name="housing_pct" value="0"><span>0%</span></label>
+                        <label class="chip"><input type="radio" name="housing_pct" value="30" checked><span>30%</span></label>
+                        <label class="chip"><input type="radio" name="housing_pct" value="50"><span>50%</span></label>
+                        <label class="chip"><input type="radio" name="housing_pct" value="70"><span>70%</span></label>
+                    </div>
+
+                    <span class="field__label">Тип жилья</span>
+                    <div class="chips" data-name="housing_type">
+                        <label class="chip"><input type="radio" name="housing_type" value="dormitory" checked><span>Общежитие</span></label>
+                        <label class="chip"><input type="radio" name="housing_type" value="apartment"><span>Квартиры</span></label>
+                    </div>
+
+                    <span class="field__label">Детсад, мест на 100 сотр.</span>
+                    <div class="chips" data-name="kindergarten">
+                        <label class="chip"><input type="radio" name="kindergarten_per_100" value="0"><span>0</span></label>
+                        <label class="chip"><input type="radio" name="kindergarten_per_100" value="15"><span>15</span></label>
+                        <label class="chip"><input type="radio" name="kindergarten_per_100" value="30" checked><span>30</span></label>
+                        <label class="chip"><input type="radio" name="kindergarten_per_100" value="50"><span>50</span></label>
+                    </div>
+
+                    <span class="field__label">Спортобъекты <span class="field__hint">(можно выбрать несколько)</span></span>
+                    <div class="chips chips--checkable" data-name="sport_objects">
+                        <label class="chip"><input type="checkbox" value="outdoor_gym" checked><span>Уличные тренажёры</span></label>
+                        <label class="chip"><input type="checkbox" value="stadium" checked><span>Стадион</span></label>
+                        <label class="chip"><input type="checkbox" value="pool"><span>Бассейн</span></label>
+                        <label class="chip"><input type="checkbox" value="gym"><span>Спортзал</span></label>
+                        <label class="chip"><input type="checkbox" value="hockey_rink"><span>Хоккейная коробка</span></label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--block">
+                    <i class="ti ti-target-arrow"></i> Найти участок
+                </button>
+            </form>
+        </aside>
+
+        <section class="results" id="results">
+            <div class="results__empty" id="results-empty">
+                <i class="ti ti-target-arrow results__empty-icon"></i>
+                <p>Выберите сценарий слева или задайте параметры вручную. Система покажет ТОП‑3 площадки, карту, сравнение и подробное обоснование.</p>
+            </div>
+
+            <div class="results__loaded" id="results-loaded" hidden>
+
+                <div class="results__head">
+                    <p class="eyebrow"><i class="ti ti-target"></i> Результаты подбора</p>
+                    <h1 class="results__title">ТОП-3 площадки под параметры проекта</h1>
+                </div>
+
+                <div class="results-summary" id="results-summary"></div>
+
+                <div class="results__grid">
+                    <div class="map-wrap">
+                        <div id="map"></div>
+                    </div>
+
+                    <div class="ranking" id="ranking">
+                        <!-- карточки регионов рендерятся JS -->
+                    </div>
+                </div>
+
+                <div class="comparison-panel" id="comparison"></div>
+
+                <div class="report" id="report" hidden>
+                    <!-- отчёт по выбранному региону рендерится JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+</section>
+
+<!-- =========================== About page =========================== -->
+<section class="page" id="page-about">
+    <div class="about-band" style="border-top:none;">
+        <div class="about-band__inner">
+            <div>
+                <p class="eyebrow"><i class="ti ti-info-circle"></i> О проекте</p>
+                <h2 class="about-band__title">Инвестпульт, который понимает <em>контекст места</em></h2>
+            </div>
+            <div class="about-band__lead">
+                <p>Мы делаем подбор площадки прозрачным: ТОП-3 выдаётся не как чёрный ящик, а с разбивкой по логистике, экономике, инфраструктуре и социалке. По каждому показателю — статус данных: где есть официальная сверка, где импорт из открытых выгрузок, а где пока MVP-оценка.</p>
+                <p>ИИ-модуль не пишет общими словами «отличный регион», а формулирует точное обоснование под текущие 10 параметров инвестора и конкретное место — с архитектурным концептом, исторической отсылкой и заданием на четыре рендера.</p>
+
+                <div class="about-grid">
+                    <div class="about-item">
+                        <div class="about-item__num">19+</div>
+                        <div class="about-item__label">Площадок</div>
+                        <div class="about-item__text">Нормализованная локальная база — субъекты РФ с координатами, сетями и культурой.</div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-item__num">10</div>
+                        <div class="about-item__label">Параметров</div>
+                        <div class="about-item__text">От объёма панелей до спортинфраструктуры — каждый влияет на смету и приоритет.</div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-item__num">4</div>
+                        <div class="about-item__label">Рендера</div>
+                        <div class="about-item__text">Юг, север, запад, восток — отдельные задания для фотореалистичной визуализации.</div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-item__num">.docx</div>
+                        <div class="about-item__label">Word-отчёт</div>
+                        <div class="about-item__text">Сразу после подбора можно выгрузить готовый отчёт по выбранной площадке.</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:2.5rem;">
+                    <button class="btn btn--primary btn--large" onclick="Nav.go('finder')">
+                        <i class="ti ti-arrow-right"></i> Перейти к подбору
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================== Data panel (modal) =========================== -->
+<div class="data-panel" id="data-panel" hidden>
+    <div class="data-panel__backdrop" data-close-data-panel onclick="window.App && App.closeDataPanel()"></div>
+    <section class="data-panel__card">
+        <div class="data-panel__head">
+            <div>
+                <p class="eyebrow"><i class="ti ti-database-search"></i> Официальные источники</p>
+                <h2>База площадок и качество данных</h2>
+            </div>
+            <button class="btn btn--ghost btn--icon" data-close-data-panel onclick="window.App && App.closeDataPanel()" aria-label="Закрыть"><i class="ti ti-x"></i></button>
+        </div>
+        <div id="data-panel-content" class="data-panel__body">Загрузка…</div>
+    </section>
+</div>
+
+<!-- =========================== Bottom nav (mobile) =========================== -->
+<nav class="bottomnav" id="bottomnav" aria-label="Mobile navigation">
+    <div class="bottomnav__inner">
+        <button class="bottomnav__link" data-nav="home"><i class="ti ti-home-2"></i><span>Главная</span></button>
+        <button class="bottomnav__link" data-nav="finder"><i class="ti ti-target-arrow"></i><span>Подбор</span></button>
+        <button class="bottomnav__link" data-nav="database"><i class="ti ti-database-search"></i><span>База</span></button>
+        <button class="bottomnav__link" data-nav="about"><i class="ti ti-info-circle"></i><span>Проект</span></button>
+    </div>
+</nav>
+
+<!-- Install prompt (Android PWA) -->
+<div class="install-toast" id="install-toast" hidden>
+    <i class="ti ti-download"></i>
+    <div class="install-toast__text">
+        Установить как приложение?
+        <small>Откроется без браузера, в один тап</small>
+    </div>
+    <button id="install-yes">Установить</button>
+    <button id="install-no" class="install-toast__close" aria-label="Закрыть"><i class="ti ti-x"></i></button>
+</div>
+
+</div><!-- /.app-shell -->
+
+<!-- Конфиг от бэка для JS -->
+<script>
+    window.APP_CONFIG = {
+        regionsCount: {{ regions_count }},
+        apiBase: "/api",
+        dgisKey: {{ dgis_key|tojson }},
+        hasDgisKey: {{ (dgis_key|length > 0)|tojson }}
+    };
+</script>
+
+<!-- ====== Navigation between pages (multi-section feel) ====== -->
+<script>
+(function(){
+    const pages = ['home', 'finder', 'about'];
+    const root = (id) => document.getElementById('page-' + id);
+    const links = document.querySelectorAll('[data-nav]');
+
+    function go(target){
+        if (target === 'database') {
+            // Открыть модалку базы данных, не меняя страницу.
+            const app = window.App || (typeof App !== 'undefined' ? App : null);
+            if (app && app.openDataPanel) {
+                app.openDataPanel();
+            } else {
+                const panel = document.getElementById('data-panel');
+                const body = document.getElementById('data-panel-content');
+                if (panel) panel.hidden = false;
+                if (body) body.innerHTML = '<div class="data-panel__error">Модуль базы данных ещё загружается. Обновите страницу через Ctrl+F5.</div>';
+            }
+            updateActive('database');
+            return;
+        }
+        if (!pages.includes(target)) target = 'home';
+
+        // Прокрутка наверх для нового восприятия страницы
+        if (root(target)) {
+            pages.forEach(p => root(p) && root(p).classList.toggle('is-active', p === target));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateActive(target);
+            // Sync URL hash (without scroll-jump)
+            try { history.replaceState(null, '', '#' + target); } catch (e) {}
+        }
+    }
+
+    function updateActive(target){
+        links.forEach(l => l.classList.toggle('is-active', l.dataset.nav === target));
+    }
+
+    links.forEach(l => l.addEventListener('click', () => go(l.dataset.nav)));
+
+    // Initial route from hash
+    const initial = (location.hash || '#home').replace('#', '');
+    document.addEventListener('DOMContentLoaded', () => {
+        go(pages.includes(initial) ? initial : 'home');
+    });
+
+    // expose
+    window.Nav = { go };
+})();
+</script>
+
+<!-- ====== PWA: Service Worker + Install prompt ====== -->
+<script>
+(function(){
+    // Service Worker отключён, чтобы браузер не держал старые JS/CSS в кеше во время проверки.
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                registrations.forEach(reg => reg.unregister());
+            } catch (e) {
+                console.warn('[PWA] Не удалось снять регистрацию Service Worker:', e);
+            }
+        });
+    }
+
+    // Install prompt UI
+    let deferredPrompt = null;
+    const toast = document.getElementById('install-toast');
+    const yes = document.getElementById('install-yes');
+    const no = document.getElementById('install-no');
+
+    function showToast(){
+        if (sessionStorage.getItem('install-dismissed') === '1') return;
+        if (toast) toast.hidden = false;
+    }
+    function hideToast(){
+        if (toast) toast.hidden = true;
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        // Show after a short delay (avoid surprising user immediately)
+        setTimeout(showToast, 4000);
+    });
+
+    yes && yes.addEventListener('click', async () => {
+        hideToast();
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        try { await deferredPrompt.userChoice; } catch (e) {}
+        deferredPrompt = null;
+    });
+    no && no.addEventListener('click', () => {
+        hideToast();
+        try { sessionStorage.setItem('install-dismissed', '1'); } catch (e) {}
+    });
+
+    window.addEventListener('appinstalled', hideToast);
+})();
+</script>
+
+<!-- ====== Patch: App.openForm / closeForm bridging to Nav ====== -->
+<script>
+// We must wait for app.js to define App, then patch openForm/closeForm
+document.addEventListener('DOMContentLoaded', function(){
+    // Slight delay to ensure App is defined
+    setTimeout(function(){
+        if (typeof App === 'undefined') return;
+        // Redirect to nav-based navigation
+        App.openForm = function(){ Nav.go('finder'); };
+        App.closeForm = function(){ Nav.go('home'); };
+    }, 0);
+
+    // Range-slider fill: обновляем CSS-переменную --val, чтобы заливка
+    // двигалась за thumb во всех браузерах (Chrome без этого не умеет)
+    function updateRangeFill(input){
+        const min = parseFloat(input.min) || 0;
+        const max = parseFloat(input.max) || 100;
+        const val = parseFloat(input.value) || 0;
+        const pct = max === min ? 0 : ((val - min) / (max - min)) * 100;
+        input.style.setProperty('--val', pct + '%');
+    }
+    function bindRangeFills(){
+        document.querySelectorAll('input[type="range"]').forEach(r => {
+            updateRangeFill(r);
+            r.addEventListener('input', () => updateRangeFill(r));
+            r.addEventListener('change', () => updateRangeFill(r));
+        });
+    }
+    bindRangeFills();
+    // Если значения слайдеров меняются программно (например, через preset),
+    // обновим заливку ещё раз через паузу
+    setTimeout(bindRangeFills, 100);
+    setTimeout(bindRangeFills, 500);
+
+    // Также реагируем на presets (App.applyPreset меняет value программно)
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.preset-btn')) {
+            setTimeout(bindRangeFills, 50);
+        }
+    });
+});
+</script>
+
+<script src="/static/js/map.js?v=49"></script>
+<script src="/static/js/site3d.js?v=49"></script>
+<script src="/static/js/app.js?v=49"></script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background fills entire canvas (maskable safe-zone covers center ~80%) -->
+  <rect width="512" height="512" fill="#15102B"/>
+
+  <!-- Decorative warm radial glow -->
+  <defs>
+    <radialGradient id="glow" cx="35%" cy="35%" r="50%">
+      <stop offset="0%" stop-color="#6D5BFF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#6D5BFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#glow)"/>
+
+  <!-- Industrial factory icon — slightly more central and bigger to satisfy maskable safe-zone -->
+  <g transform="translate(0, 8)">
+    <!-- Factory body (staircase silhouette) -->
+    <path d="M150 380 L150 215 L205 250 L205 215 L260 250 L260 215 L315 250 L315 215 L370 250 L370 215 L395 215 L395 380 Z"
+          fill="#6D5BFF" stroke="#06B6D4" stroke-width="6" stroke-linejoin="round"/>
+
+    <!-- Chimney -->
+    <rect x="218" y="135" width="40" height="80" fill="#6D5BFF" stroke="#06B6D4" stroke-width="6"/>
+
+    <!-- Smoke (rounded) -->
+    <circle cx="238" cy="118" r="14" fill="#06B6D4" opacity="0.55"/>
+    <circle cx="225" cy="98"  r="10" fill="#06B6D4" opacity="0.42"/>
+    <circle cx="252" cy="92"  r="8"  fill="#06B6D4" opacity="0.35"/>
+
+    <!-- Windows -->
+    <rect x="170" y="295" width="22" height="22" fill="#FFFFFF"/>
+    <rect x="225" y="295" width="22" height="22" fill="#FFFFFF"/>
+    <rect x="280" y="295" width="22" height="22" fill="#FFFFFF"/>
+    <rect x="335" y="295" width="22" height="22" fill="#FFFFFF"/>
+
+    <!-- Bashkir-style ornamental wave under -->
+    <path d="M150 405 Q170 392 190 405 Q210 418 230 405 Q250 392 270 405 Q290 418 310 405 Q330 392 350 405 Q370 418 390 405"
+          fill="none" stroke="#06B6D4" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

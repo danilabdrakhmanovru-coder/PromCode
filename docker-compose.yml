@@ -1,0 +1,10 @@
+services:
+  hak-app:
+    build: .
+    container_name: hak-industry
+    ports:
+      - "8000:8000"
+    environment:
+      - LLM_USE_MOCK=true
+      - RENDER_MODE=procedural
+    restart: unless-stopped
